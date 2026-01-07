@@ -1,6 +1,7 @@
-import type { Movie, Show, SeatsResponse, Booking } from './types';
+import type { Movie, Show, SeatsResponse, Booking, LoginRequest, LoginResponse } from './types';
 
-const API_BASE = '/api';
+const API_BASE = 'http://localhost:3000';
+// const API_BASE = '/api';
 
 async function fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
   const res = await fetch(url, {
@@ -20,6 +21,13 @@ async function fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
 }
 
 export const api = {
+  // Auth
+  login: (email: string, password: string) =>
+    fetchJson<LoginResponse>(`${API_BASE}/auth/login`, {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    }),
+
   // Movies
   getMovies: () => fetchJson<Movie[]>(`${API_BASE}/movies`),
   getMovie: (id: string) => fetchJson<Movie>(`${API_BASE}/movies/${id}`),
