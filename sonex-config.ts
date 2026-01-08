@@ -1,17 +1,17 @@
 // cspell:disable
 
 import type { SonexTheme, WidgetConfig } from '@sonex/sdk-browser';
-// import { BillSplitCardTemplate, ProfileCardTemplate, ExpenseCardTemplate, SpendSummaryCardTemplate } from './components/sonex-templates';
-// import {
-//   isExpenseCardData,
-//   isBillSplitCardData,
-//   isProfileCardData,
-//   isBillSplitIntent,
-//   isAddExpenseCardData,
-//   isSpendSummaryCardData,
-//   isSpendSummaryIntent
-// } from './types/template-data';
-// import { InteractiveExpenseCardExample } from './components/sonex-templates/InteractiveExpenseCardExample';
+import {
+  MovieShowsCardTemplate,
+  MoviesListCardTemplate
+} from './sonex-templates';
+import {
+  isMovieShowsCardData,
+  // isMovieShowsIntent,
+  isMoviesListCardData,
+  // isMoviesListIntent
+} from './sonex-template-data';
+
 
 // Custom BookMyShow theme
 const bookMyShowTheme: SonexTheme = {
@@ -19,7 +19,7 @@ const bookMyShowTheme: SonexTheme = {
   primaryColor: '#f84464',
   secondaryColor: '#dc3558',
   backgroundColor: '#1a1a1a',
-  textColor: '#1a1a1a',
+  textColor: '#ffffff',
 
   // Typography
   fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
@@ -84,7 +84,7 @@ export const createSonexConfig = (
 ): WidgetConfig => ({
   chatbotConfig: {
     apiEndpoint: 'http://localhost:3000/transcribe',
-    sessionEndpoint: 'http://localhost:3000/transcribe/api/session',
+    sessionEndpoint: 'http://localhost:3000/auth/session',
   },
   title: 'BookMyShow Assistant',
   subtitle: 'Split your movie expenses!',
@@ -111,52 +111,23 @@ export const createSonexConfig = (
   onError: (error) => handleChatEvent('error', error),
 
   // Custom templates for rendering specific message types
-//   templates: [
-//     {
-//       name: 'expense-card',
-//       component: ExpenseCardTemplate,
-//       matcher: (data) => {
-//         // Use type guard to validate data structure
-//         // Also check for expense-related intents as a fallback
-//         return isAddExpenseCardData(data); // || isExpenseIntent(data?.intent);
-//       }
-//     },
-//     {
-//       name: 'bill-split-card',
-//       component: BillSplitCardTemplate,
-//       matcher: (data) => {
-//         // Use type guard to validate data structure
-//         // Also check for bill-split related intents as a fallback
-//         return isBillSplitCardData(data) || isBillSplitIntent(data?.intent);
-//       }
-//     },
-//     {
-//       name: 'profile-card',
-//       component: ProfileCardTemplate,
-//       matcher: (data) => {
-//         // Use type guard to validate data structure
-//         // Also check for profile-related intents as a fallback
-//         return isProfileCardData(data); // || isProfileIntent(data?.intent);
-//       }
-//     },
-//     {
-//       name: 'interactive-expense-card',
-//       component: InteractiveExpenseCardExample,
-//       matcher: (data) => {
-//         // Use type guard to validate data structure
-//         // Also check for profile-related intents as a fallback
-//         return isExpenseCardData(data); // || isProfileIntent(data?.intent);
-//       }
-//     },
-//     {
-//       name: 'spend-summary-card',
-//       component: SpendSummaryCardTemplate,
-//       matcher: (data) => {
-//         // Use type guard to validate data structure
-//         // Also check for spend-summary related intents as a fallback
-//         return isSpendSummaryCardData(data) || isSpendSummaryIntent(data?.intent);
-//       }
-//     }
-//   ]
+  templates: [
+    {
+      name: 'movies-list-card',
+      component: MoviesListCardTemplate,
+      matcher: (data) => {
+        // Use type guard to validate data structure for movies list
+        return isMoviesListCardData(data); // || isMoviesListIntent(data?.intent);
+      }
+    },
+    {
+      name: 'movie-shows-card',
+      component: MovieShowsCardTemplate,
+      matcher: (data) => {
+        // Use type guard to validate data structure for movie shows
+        return isMovieShowsCardData(data); // || isMovieShowsIntent(data?.intent);
+      }
+    }
+  ]
 });
 
